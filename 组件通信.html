@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>组件通信传值</title>
+    <script src="../vue.js"></script>
+    <style>
+        .box1{
+            padding: 20px;
+            background: red;
+        }
+        .box2{
+            padding: 20px;
+            background: greenyellow;
+        }
+        .box3{
+            padding: 20px;
+            background: yellow;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+        <parent-parent></parent-parent>
+    </div>
+</body>
+    <script>
+        Vue.component("parent-parent",{
+            data:function(){
+                return {
+                    msg:"父级的信息"
+                }
+            },
+            template:`
+                <div class="box1">
+                    <button>点击发送信息</button>
+                    <p>接收到子级的信息是:</p>
+                    <children-children :name='msg' @abc="handchildrenname"></children-children>
+                </div>
+            `,
+            methods:{
+                handchildrenname:function(val){
+                    console.log(val);
+                    this.msg = val
+                }
+            }
+        })
+        Vue.component("children-children",{
+            data:function(){
+                return {
+                    msg:""
+                }
+            },
+            props:{
+                name:{
+                    type:String,
+
+                }
+            },
+            template:`
+                <div class="box2">
+                    <p>接收到父级的信息是:</p>
+                    <p>我的名字是:{{name}}</p>
+                    <button v-on:click="panni">点击向父级发送信息</button>
+                </div>
+            `,
+            methods: {
+                //正常情况下子级不能改变父级那边的数据,
+                //要改:需要在父级的子组件标签上定义一个有@的自定义属性@abc = "值" 
+                //值是一个函数名,此函数在父级的methods里定义,
+                //此函数里的形参可以接收到子级传递过来的数据,
+                //子组件里定义一个事件函数里用this.$emit("父级自定义的属性@abc","想要的参数")
+                panni:function(){
+                    this.$emit("abc","hajajja")
+                }
+            },
+        })
+
+        var vm = new Vue({
+            el:"#app",
+            data() {
+                return {
+                    msg:"组件之间的通信"
+                }
+            },
+        })
+    </script>
+</html>

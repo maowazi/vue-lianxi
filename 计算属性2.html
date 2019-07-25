@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+    <div id="box">
+        <input type="text" v-model='msg'  />
+        <ul>
+            <li v-for="(item,index) in listdata" :key="index">
+                {{item}}
+            </li>
+        </ul>
+        <p>{{foreName}}--{{lastName}}</p>
+        <p>{{fullNmae}}</p>
+    </div>
+</body>
+<script>
+    var vm = new Vue({
+        el:"#box",
+        data:{
+            list:[
+                "牛肉",
+                "鸡肉",
+                "鱼肉",
+                "鸭肉",
+                "羊肉",
+                "兔肉",
+                "猪肉"
+            ],
+            msg:'',
+            foreName:"张",
+            lastName:"三"
+
+        },
+        computed: {             //此处的this指向是:第一个this指向的是当前的实例(不用改变this),第二个是需要改变的(如果第箭头函数不用),但此处不能用两个箭头函数会报错(第一个能,第二个可以),第二个用箭头函数就不用改变this了
+            listdata: function(){
+                let thas = this          //如果下面的是正常函数此处需要保存this
+                var data = this.list.filter((item)=>{
+                    return item.indexOf(this.msg) > -1
+                })
+               return data;
+            },
+            fullNmae:function(){      //函数名就是返回值
+                return this.foreName + " " + this.lastName;
+            }
+        },
+    })
+</script>
+</html>

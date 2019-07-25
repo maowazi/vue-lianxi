@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>动态组件基本使用</title>
+    <style>
+        .active{
+            background: green;
+        }
+    </style>
+    <script src="../vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>动态组件</h1>
+        <keep-alive>
+            <component :is="status"></component>
+        
+        </keep-alive>
+        <button v-for="(item,index) in buttons" :key="index" @click="handclick(item.stat)" :class="{active:item.title === status}">{{item.title}}</button>
+    </div>
+</body>
+    <script>
+        Vue.component("home",{
+            template:`
+                <div><h1>home</h1></div>
+            `
+        })
+        Vue.component("list",{
+            template:`
+                <div><h1>list</h1></div>
+            `
+        })
+        Vue.component("mine",{
+            template:`
+                <div><h1>mine</h1></div>
+            `
+        })
+        var vm = new Vue({
+            el:"#app",
+            data:function(){
+                return {
+                    //状态
+                    status:"home",
+                    buttons:[
+                        {
+                            title:"home",
+                            stat:1
+                        },
+                        {
+                            title:"list",
+                            stat:2
+                        },
+                        {
+                            title:"mine",
+                            stat:3
+                        }
+                    ]
+                }
+            },
+            methods: {
+                handclick(parameter){
+                    switch (parameter) {
+                        case 1:
+                            this.status = "home";
+                            break;
+                        case 2:
+                            this.status = "list";
+                            break;
+                        default:
+                            this.status = "mine";
+                            break;
+                    }
+                }
+            },
+        })
+    </script>
+</html>

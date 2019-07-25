@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .libox{
+            background: yellow;
+            color: greenyellow;
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <ol >
+            <li v-for="item in list" v-bind:class="{libox:flag === item.name}" v-on:click="hangadd(item.name)">{{item.name}}</li>
+        </ol>
+        <div v-bind:class="tr?'libox':''" >
+            {{tr?'哈哈哈':'不不不'}}
+        </div>
+        <ul>
+            <li v-for="(item,index) in Fruits" v-on:click="hand(index)" :key="index">
+                {{item.name}}
+            </li>
+        </ul>
+        <ol>
+            <li v-for='(item,index) in LoveFtuies' :key="index">
+                {{item.name}}
+            </li>
+        </ol>
+    </div>
+</body>
+<script src="../vue.js"></script>
+<script>
+    new Vue({
+        el:"#box",
+        data:{
+            msg:"哈哈哈",
+            list:[
+                {
+                    name:"xiaoming"
+                },
+                {
+                    name:"xiaohong"
+                },
+                {
+                    name:"xiaolan"
+                }
+            ],
+            flag:"xiaoming",
+            tr:true,
+            Fruits:[
+                {
+                    name:"苹果",
+                    isLove:false
+                },
+                {
+                    name:'香蕉',
+                    isLove:false
+                },
+                {
+                    name:"橘子",
+                    isLove:false
+                },
+                {
+                    name:"西瓜",
+                    isLove:false
+                },
+                {
+                    name:"桃子",
+                    isLove:false
+                }
+            ]
+        },
+        methods: {
+            hangadd(abc){
+                this.flag = abc;
+            },
+            hand(index){
+                this.Fruits[index].isLove = !this.Fruits[index].isLove
+                
+            }
+        },
+        computed: {
+            LoveFtuies:function(){
+                var loveftuies = this.Fruits.filter((item)=>{
+                    return item.isLove
+                })
+                return loveftuies
+            }
+        },
+    })
+</script>
+</html>

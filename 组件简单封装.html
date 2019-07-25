@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>组件简单封装</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+        <!-- 此处input没有自定义事件是简写形式 -->
+        <input-input label="用户名" placeholder='请输入用户名' type="text" v-model="username"></input-input>
+        <input-input label="密码" type="password" v-model="password"></input-input>
+    </div>
+</body>
+<script>
+    Vue.component("input-input",{
+        data:function(){
+            return {
+
+            }
+        },
+        props:{
+            label:{
+                type:String,
+                required:true
+            },
+            placeholder:{
+                type:String,
+                default:"请输入"
+            },
+            type:{
+                type:String,
+                required:true,
+                default:"text"
+            },
+            value:{
+                type:String
+            }
+
+        },
+        //如果本组件的属性值是一个变量是从父级传过来的,就在属性前加一个冒号,标明此属性值是一个变量
+        //此处的组件传值,和组件通信是一样的,给组件绑定一个input事件,用emit触发的是父级那边子组件里的自定义事件,
+        //同时把本输入框的值传递过去,让父级把他组件的值修改成于此输入的值一样
+        template:`
+            <div>
+                <label>{{label}}:</label><input :type="type" :placeholder="placeholder" :value="value" @input='$emit("input",$event.target.value)'/>    
+            </div>
+        `
+    })
+
+    var vm = new Vue({
+        el:"#app",
+        data:function(){
+            return {
+                msg:"简单的组件封装",
+                username:"我爱吃肉",
+                password:"123"
+            }
+        },
+        methods: {
+            user:function(val){
+                console.log(11);
+                this.username = val;
+                
+            },
+            pwd:function(val){
+                this.password = val;
+            }
+        },
+    })
+</script>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>组件基础</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h-header></h-header>
+        <div>我是内容部分</div>
+        <f-footer></f-footer>
+        <hr/>
+        <body-body></body-body>
+    </div>
+</body>
+    <script>
+        //此处要先定义组件再定义挂载点,不然报错
+        Vue.component("h-header",{
+            data:function(){
+                return {
+
+                }
+            },
+            template:`
+                <div>
+                    <h1>我是头部组件</h1>
+                    <children-children></children-children>
+                </div>
+            `,
+            //此处注册的是局部组件,通过components在组件内部进行注册
+            components:{
+                //key:value key是组件名 value是组件的配置项{},配置好后在当前组件里用标签进行使用
+                //此处的data必须是函数,为了避免组件应用时与父组件的数据发生影响
+                'children-children':{
+                    data:function(){
+                        return {
+
+                        }
+                    },
+                    template:`
+                        <div>
+                            <p>我是局部组件</p>
+                        </div>
+                    `
+                }
+            }
+        })
+        Vue.component("f-footer",{
+            data:function(){
+                return {
+
+                }
+            },
+            template:`
+                <div>
+                    <h2>我是底部组件</h2>
+                    <button-button></button-button>
+                    <button-button></button-button>
+                </div>
+            `
+        })
+        Vue.component("body-body",{
+            data:function(){
+                return {
+
+                }
+            },
+            template:`
+                <div>
+                    <p>我要使用header组件</p>
+                    <h-header></h-header>
+                </div>
+            `
+        })
+        Vue.component("button-button",{
+            data:function(){
+                return {
+                    msg:0
+                }
+            },
+            template:`
+                <button v-on:click='handclick'>我是button组价点击加加{{this.msg}}</button>
+            `,
+            methods: {
+                handclick:function(){
+                    this.msg++
+                }
+            },
+        })
+        let vm = new Vue({
+            el:"#app"
+        })
+    </script>
+</html>
