@@ -12,10 +12,11 @@
         data() {
             return {
                 swiperOption: {
-                    loop: true,
+                    loop: true,//无限轮播
+                    speed:1500,//划过速度
                     autoplay: {
-                        delay: 3000,
-                        disableOnInteraction: true
+                        delay: 3000,//停留时间
+                        disableOnInteraction: true//触碰后继续轮播
                     },
                     pagination: {
                         el: ".swiper-pagination",
